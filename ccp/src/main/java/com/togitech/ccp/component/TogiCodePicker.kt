@@ -41,7 +41,6 @@ import com.togitech.ccp.data.utils.getLibCountries
 import com.togitech.ccp.utils.searchCountry
 
 class TogiCodePicker {
-    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun TogiCodeDialog(
         modifier: Modifier = Modifier,
@@ -96,7 +95,8 @@ class TogiCodePicker {
             Dialog(
                 onDismissRequest = { isOpenDialog = false },
                 properties = DialogProperties(
-                    usePlatformDefaultWidth = false
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true
                 ),
             ) {
                 Scaffold(

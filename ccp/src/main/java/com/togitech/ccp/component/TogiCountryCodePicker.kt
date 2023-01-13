@@ -41,73 +41,49 @@ fun TogiCountryCodePicker(
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = text)) }
     val textFieldValue = textFieldValueState.copy(text = text)
     val keyboardController = LocalTextInputService.current
-    Surface(
-        color = color
-    ) {
-        Column(
-            modifier = rowPadding
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            )
-            {
-                OutlinedTextField(
-                    modifier = modifier
-                        .fillMaxWidth(),
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    )
+    {
+        OutlinedTextField(
+            modifier = modifier
+                .fillMaxWidth(),
 
-                    value = textFieldValue,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = if (!error) Color.Red else focusedBorderColor,
-                        unfocusedBorderColor = if (!error) Color.Red else unfocusedBorderColor,
-                        cursorColor = cursorColor
-                    ),
-                    onValueChange = {
-                        textFieldValueState = it
-                        if (text != it.text) {
-                            onValueChange(it.text)
-                        }
-                    },
-                    singleLine = true,
-                    visualTransformation = PhoneNumberTransformation(defaultCountry.countryCode.uppercase()),
-                    placeholder = { Text(text = stringResource(id = getNumberHint(defaultCountry.countryCode))) },
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.NumberPassword,
-                        autoCorrect = true,
-                    ),
-                    keyboardActions = KeyboardActions(onDone = { keyboardController?.hideSoftwareKeyboard() }),
-                    leadingIcon = {
-                        Row {
-                            Column {
-                                val dialog = TogiCodePicker()
-                                dialog.TogiCodeDialog(
-                                    pickedCountry = pickedCountry,
-                                    defaultSelectedCountry = defaultCountry,
-                                    dialogAppBarColor = dialogAppBarColor,
-                                    showCountryCode = showCountryCode,
-                                    dialogAppBarTextColor = dialogAppBarTextColor
-                                )
-                            }
-
-                        }
-                    },
-                    trailingIcon = {
-                        if (!error)
-                            Icon(
-                                imageVector = Icons.Filled.Warning, contentDescription = "Error",
-                                tint = MaterialTheme.colors.error
-                            )
+            value = textFieldValue,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = if (!error) Color.Red else focusedBorderColor,
+                unfocusedBorderColor = if (!error) Color.Red else unfocusedBorderColor,
+                cursorColor = cursorColor
+            ),
+            onValueChange = {
+                textFieldValueState = it
+                if (text != it.text) {
+                    onValueChange(it.text)
+                }
+            },
+            singleLine = true,
+            placeholder = { Text(text = stringResource(id = getNumberHint(defaultCountry.countryCode))) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.NumberPassword,
+            ),
+            keyboardActions = KeyboardActions(onDone = { keyboardController?.hideSoftwareKeyboard() }),
+            leadingIcon = {
+                Row {
+                    Column {
+                        val dialog = TogiCodePicker()
+                        dialog.TogiCodeDialog(
+                            pickedCountry = pickedCountry,
+                            defaultSelectedCountry = defaultCountry,
+                            dialogAppBarColor = dialogAppBarColor,
+                            showCountryCode = showCountryCode,
+                            dialogAppBarTextColor = dialogAppBarTextColor
+                        )
                     }
-                )
+
+                }
             }
-            if (!error)
-                Text(
-                    text = stringResource(id = R.string.invalid_number),
-                    color = MaterialTheme.colors.error,
-                    style = MaterialTheme.typography.caption,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 0.8.dp)
-                )
-        }
+        )
     }
 }
+
